@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project X - Test Deployment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Project X</h1>
+            <p class="subtitle">Edge Deployment Test</p>
+        </header>
+
+        <main>
+            <div class="status-card">
+                <h2>✅ Deployment Successful</h2>
+                <p>This is a proof-of-concept deployment testing infrastructure capabilities.</p>
+            </div>
+
+            <div class="api-test">
+                <h3>API Status</h3>
+                <button onclick="testAPI()">Test API Connection</button>
+                <div id="api-result"></div>
+            </div>
+
+            <div class="info">
+                <h3>Test Objectives</h3>
+                <ul>
+                    <li>Verify auto-deployment from repository</li>
+                    <li>Test API endpoint connectivity</li>
+                    <li>Measure response times</li>
+                    <li>Validate logging capabilities</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer>
+            <p>Project X - Internal Testing Only</p>
+        </footer>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.innerHTML = '<p>Testing...</p>';
+
+            try {
+                const healthResponse = await fetch('/api/health');
+                const healthData = await healthResponse.json();
+
+                const timeResponse = await fetch('/api/time');
+                const timeData = await timeResponse.json();
+
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <p><strong>✅ Health Check:</strong> ${healthData.status}</p>
+                        <p><strong>⏰ Server Time:</strong> ${timeData.time}</p>
+                        <p><strong>📍 Region:</strong> ${timeData.region || 'Unknown'}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <p><strong>❌ Error:</strong> ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(testAPI, 1000);
+        });
+    </script>
+</body>
+</html>
